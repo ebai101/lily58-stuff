@@ -13,6 +13,9 @@ enum macros { MC_DARR = SAFE_RANGE, MC_EARR };
 #define BR_FWRD LGUI(KC_RBRC)
 #define SPTLITE LCAG(KC_SPACE)
 
+#define DFM DF(0)
+#define DFW DF(1)
+
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
         case MC_DARR:
@@ -67,16 +70,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
      * |LALT  |      |      |      |      |      |-------|    |-------|      |      |      |      |      |      |
      * `-----------------------------------------/       /     \      \-----------------------------------------'
-     *                   | FNC  |Insert|LCTRL | /       /       \      \  | ADJ  |      |      |
+     *                   | FNC  |Insert|LCTRL | /       /       \      \  |      |      |      |
      *                   |      |      |      |/       /         \      \ |      |      |      |
      *                   `----------------------------'           '------''--------------------'
      */
 	[LAYER_WIN] = LAYOUT(
-        KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,                      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
-        KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,                      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
-        KC_LSFT,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,                      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
-        KC_LALT,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
-                                      LY_FNC,   KC_INS,   KC_LCTL,  KC_TRNS,  KC_TRNS,  LY_ADJ,   KC_TRNS,  KC_TRNS
+        _______,  _______,  _______,  _______,  _______,  _______,                      _______,  _______,  _______,  _______,  _______,  _______,
+        _______,  _______,  _______,  _______,  _______,  _______,                      _______,  _______,  _______,  _______,  _______,  _______,
+        KC_LSFT,  _______,  _______,  _______,  _______,  _______,                      _______,  _______,  _______,  _______,  _______,  _______,
+        KC_LALT,  _______,  _______,  _______,  _______,  _______,  KC_LBRC,  KC_RBRC,  _______,  _______,  _______,  _______,  _______,  _______,
+                                      LY_FNC,   KC_INS,   KC_LCTL,  _______,  _______,  _______,  _______,  _______
     ),
 
     /* SYM - symbols/macros
@@ -95,11 +98,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                   `----------------------------'           '------''--------------------'
      */
 	[LAYER_SYM] = LAYOUT(
-        KC_TRNS,  KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,                        KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_TRNS,
-        KC_TRNS,  KC_EXLM,  KC_AT,    KC_HASH,  KC_DLR,   KC_PERC,                      KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_LPRN,  KC_RPRN,  KC_TRNS,
-        KC_TRNS,  KC_F13,   KC_F14,   KC_F15,   KC_F16,   KC_NO,                        KC_PIPE,  KC_UNDS,  KC_PLUS,  KC_LCBR,  KC_RCBR,  KC_TILD,
-        KC_TRNS,  KC_F17,   KC_F18,   KC_F19,   KC_F20,   KC_NO,    MC_EARR,  MC_DARR,  KC_BSLS,  KC_MINS,  KC_EQL,   KC_LBRC,  KC_RBRC,  KC_GRV,
-                                      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  LY_ADJ,   KC_TRNS,  KC_TRNS
+        _______,  _______,  _______,  _______,  _______,  _______,                      _______,  _______,  _______,  _______,  _______,  KC_DEL,
+        _______,  KC_EXLM,  KC_AT,    KC_HASH,  KC_DLR,   KC_PERC,                      KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_LPRN,  KC_RPRN,  KC_BSPC,
+        _______,  KC_F13,   KC_F14,   KC_F15,   KC_F16,   _______,                      KC_PIPE,  KC_UNDS,  KC_PLUS,  KC_LCBR,  KC_RCBR,  KC_TILD,
+        _______,  KC_F17,   KC_F18,   KC_F19,   KC_F20,   _______,  MC_EARR,  MC_DARR,  KC_BSLS,  KC_MINS,  KC_EQL,   KC_LBRC,  KC_RBRC,  KC_GRV,
+                                      _______,  _______,  _______,  _______,  _______,  LY_ADJ,   _______,  _______
     ),
 
     /* FNC - function keys, arrows, numbers
@@ -111,29 +114,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
      * |      | F1   | F2   | F3   | F4   | F5   |-------.    ,-------| Left | Down | Up   |Right | F11  | F12  |
      * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
-     * |      | F6   | F7   | F8   | F9   | F10  |-------|    |-------| Home | PgDn | PgUp | End  |      |      |
+     * |      | F6   | F7   | F8   | F9   | F10  |-------|    |-------| Home | PgDn | PgUp | End  | DFM  | DFW  |
      * `-----------------------------------------/       /     \      \-----------------------------------------'
      *                   |      |      | ADJ  | /       /       \      \  |      |      |      |
      *                   |      |      |      |/       /         \      \ |      |      |      |
      *                   `----------------------------'           '------''--------------------'
      */
 	[LAYER_FNC] = LAYOUT(
-        KC_TRNS,  KC_F11,   KC_F12,   KC_NO,    KC_NO,    KC_NO,                        KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_TRNS,
-        KC_TRNS,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,                         KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_TRNS,
-        KC_NO,    KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,                        KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  KC_F11,   KC_F12,
-        KC_NO,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_NO,    KC_NO,    KC_HOME,  KC_PGDN,  KC_PGUP,  KC_END,   KC_NO,    KC_NO,
-                                      KC_TRNS,  KC_TRNS,  LY_ADJ,   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS
+        _______,  KC_F11,   KC_F12,   _______,  _______,  _______,                      _______,  _______,  _______,  _______,  _______,  KC_DEL,
+        _______,  KC_1,     KC_2,     KC_3,     KC_4,     KC_5,                         KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_BSPC,
+        _______,  KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,                        KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  KC_F11,   KC_F12,
+        _______,  KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   _______,  _______,  KC_HOME,  KC_PGDN,  KC_PGUP,  KC_END,   DFM,      DFW,
+                                      _______,  _______,  LY_ADJ,   _______,  _______,  _______,  _______,  _______
     ),
 
     /* ADJ - adjustment stuff
-     * Select the default layer here
      * ,-----------------------------------------.                    ,-----------------------------------------.
      * |      |      |      |      |      |      |                    |      |      |      |      |      |      |
      * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
      * |      |      | Play |VolUp | Stop | BrUp |                    |EEPROM|Reset |      |      |      |      |
      * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
      * |      |      | Prev |VolDn | Next | BrDn |-------.    ,-------|      |      |      |      |      |      |
-     * |------+------+------+------+------+------| WIN   |    | MAC   |------+------+------+------+------+------|
+     * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
      * |      |      |      | Mute |      |      |-------|    |-------|      |      |      |      |      |      |
      * `-----------------------------------------/       /     \      \-----------------------------------------'
      *                   |      |      |      | /       /       \      \  |      |      |      |
@@ -141,11 +143,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                   `----------------------------'           '------''--------------------'
      */
 	[LAYER_ADJ] = LAYOUT(
-        KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,                        KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,
-        KC_NO,    KC_NO,    KC_MPLY,  KC_VOLU,  KC_MSTP,  KC_BRIU,                      EEP_RST,  RESET,    KC_NO,    KC_NO,    KC_NO,    KC_NO,
-        KC_NO,    KC_NO,    KC_MPRV,  KC_VOLD,  KC_MNXT,  KC_BRID,                      KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,
-        KC_NO,    KC_NO,    KC_NO,    KC_MUTE,  KC_NO,    KC_NO,    DF(1),    DF(0),    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,
-                                      KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO
+        _______,  _______,  _______,  _______,  _______,  _______,                      _______,  _______,  _______,  _______,  _______,  _______,
+        _______,  _______,  KC_MPLY,  KC_VOLU,  KC_MSTP,  KC_BRIU,                      EEP_RST,  RESET,    _______,  _______,  _______,  _______,
+        _______,  _______,  KC_MPRV,  KC_VOLD,  KC_MNXT,  KC_BRID,                      _______,  _______,  _______,  _______,  _______,  _______,
+        _______,  _______,  _______,  KC_MUTE,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
+                                      _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______
     )
 };
 // clang-format on
