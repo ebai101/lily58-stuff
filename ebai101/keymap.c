@@ -8,7 +8,8 @@ enum macros { MC_DARR = SAFE_RANGE, MC_EARR };
 #define LY_ADJ MO(LAYER_ADJ)
 
 #define KY_CESC LCTL_T(KC_ESC)
-#define KY_HYPR RCAG_T(KC_NO)
+// #define KY_HYPR RCAG_T(KC_NO)
+#define KY_HYPR KC_CAPS
 #define BR_BACK LGUI(KC_LBRC)
 #define BR_FWRD LGUI(KC_RBRC)
 #define SPTLITE LCAG(KC_SPACE)
